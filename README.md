@@ -5,6 +5,17 @@ This module allows for "external authentication" when using the IDS with Alfresc
 This means that you can inject a user id using http headers with a request on the repository which can be useful in some integration cases.
 
 Make sure the tomcat instance for Platform/Repo is not directly accessible by users. All requests should be filtered in a proxy to prevent user spoofing.
+Apache 2 Example:
+```html
+##############################################################
+# Check a HTTP header for a key to allow remote user to be set
+##############################################################
+<If "%{HTTP:X-SHARED-SECRET} != 'Averysecretkey'">
+    # prevent the client from setting this header, unless secret is provided
+    RequestHeader unset X-Alfresco-Remote-User
+</If>
+```
+
 
 To use use the following code in alfresco-global.properties
 ```properties
